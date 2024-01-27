@@ -87,7 +87,7 @@ namespace XCodeTool
                 File.WriteAllText(file, xml);
             }
 
-            Console.ReadKey();
+            //Console.ReadKey();
         }
 
         static void Build(String modelFile, String output)
