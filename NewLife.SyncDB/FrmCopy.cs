@@ -107,7 +107,7 @@ namespace NewLife.SyncDB
             var toDal = DAL.Create("ToBakDB");
             var toTables = toDal.Tables;
 
-            //dal.Insert(new { Id = Rand.Next(), Name = Rand.NextString(8) }, "user");
+
 
             if (toTables != null && toTables.FirstOrDefault(e => e.TableName == table.TableName) != null)
             {

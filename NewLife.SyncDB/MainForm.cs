@@ -45,71 +45,20 @@ namespace NewLife.SyncDB
 
             DAL.AddConnStr("BakDB", SyncSetting.Current.MainConn, null, null);
             DAL.AddConnStr("ToBakDB", SyncSetting.Current.BakConn, null, null);
-            //var dal = DAL.Create("BakDB");
-            //var toDal = DAL.Create("ToBakDB");
-
-            //var table = dal.Tables.Find(x => x.Name == "tdBook");
-
-
-            //toDal.SetTables(table);
-
-            ////把自增键去掉，不然会影响效率，作为备份库，自增键也不是很重要
-            //var col = table.Columns.FirstOrDefault(e => e.Identity);
-            //if (col != null)
-            //{
-            //    col.Identity = false;
-            //}
-
-            //var sb = new SelectBuilder { Table = table.Name };
-            //var dt = dal.Query(sb, 0, 5);
-
-
-            //if (toDal.DbType == DatabaseType.SqlServer)
-            //{
-            //    toDal.Session.Execute($"SET IDENTITY_INSERT {table.TableName} ON");
-            //}
-            ////批量导入到Sqlserver数据库
-            //toDal.Session.Insert(table, table.Columns.ToArray(), dt.Cast<IModel>());
-
-            //if (toDal.DbType == DatabaseType.SqlServer)
-            //{
-            //    toDal.Session.Execute($"SET IDENTITY_INSERT {table.TableName} OFF");
-            //}
-
-            //dal.Insert(new { Id = Rand.Next(), Name = Rand.NextString(8) }, "user");
-
-            //ExtendBox = true;
-            //ExtendSymbolSize = 20;
-            //ExtendSymbol = 362803;
-            //ExtendSymbolOffset=new Point(-3,0);
-            //ExtendBoxClick += MainForm_ExtendBoxClick;
-
-            //var tableSets = new List<SyncSetting.TableSet>();
-
-            //tableSets.Add(new SyncSetting.TableSet
-            //{
-            //    Name = "tdBook",
-            //    OrderColumn = "UpdateTime"
-            //});
-
-            //SyncSetting.Current.Tables = tableSets;
-
-            //SyncSetting.Current.Save();
-
-            //var imge = ((System.Drawing.Image)(Resources.ResourceManager.GetObject("right.Image")));
+            
 
             var styles = UIStyles.PopularStyles();
             foreach (UIStyle style in styles)
             {
                 this.uiContextMenuStrip1.Items.Add(style.ToString());
-                //uiNavBar1.CreateChildNode(uiNavBar1.Nodes[0], style.DisplayText(), style.Value());
+                
             }
 
             if (!SyncSetting.Current.ServiceName.IsNullOrEmpty())
                 this.Text = SyncSetting.Current.ServiceName;
 
             _dataGridViewExt = new DataGridViewExt(this.dataGridView1, "operate");//把多按钮扩展实例一下
-            //this.dataGridView1.RowsAdded += DataGridView1_RowsAdded;
+            
         }
 
         private void uiContextMenuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
