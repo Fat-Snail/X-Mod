@@ -1,4 +1,4 @@
-﻿using NewLife.SyncDB.Ext;
+﻿using Newlife.SyncDB.Ext;
 using NewLife;
 using NewLife.Caching;
 using NewLife.Data;
@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using XCode.DataAccessLayer;
 
-namespace NewLife.SyncDB
+namespace Newlife.SyncDB
 {
     public partial class FrmSync : UIForm
     {
@@ -127,7 +127,7 @@ namespace NewLife.SyncDB
                 return;
             }
 
-            var endTime= DateTime.Now;
+            var endTime = DateTime.Now;
 
             WriteStatuLog($"正在同步表[{table.Name}]".LogFormat());
 
@@ -228,7 +228,6 @@ namespace NewLife.SyncDB
 
             #endregion
 
-            //var sb = new SelectBuilder { Table = table.Name, Where = $"{orderCol}>='{table.SyncTime}'", Limit = "Limit 1" };
             var sb = new SelectBuilder { Table = table.Name, Where = $"{orderCol}>='{table.SyncTime}'" };
 
             var dal = DAL.Create("BakDB");
@@ -262,76 +261,42 @@ namespace NewLife.SyncDB
 
             var udCols = insCols.Select(x => x.Name).ToArray();
 
-            foreach (var row in dt.Rows)
+            int newCount = 0, ignoreCount = 0, updateCount = 0;
+
+            foreach (var row in dt)
             {
                 var value = row[idKeyIndex];
 
-                var str = row.ToJson();
+                sb = new SelectBuilder { Table = table.Name };
 
-                //var m = row.Cast<IModel>();
-
-                sb = new SelectBuilder { Table = table.Name, Where = $"{idKeyCol.Name}='{value}'" };
+                sb.Where = $"{idKeyCol.Name}={toDal.Db.FormatValue(idKeyCol, value)} ";
 
                 var toDt = toDal.Query(sb);
 
                 if (toDt != null && toDt.Rows.Count > 0)
                 {
-                    var oldData = toDt.Rows[0].ToJson();
-                    var newData = row.ToJson();
 
-                    if (oldData == newData)
+                    if (CompareTwoObjList(toDt.Rows[0], dt.Rows[row.Index]))
                     {
-                        WriteStatuLog($"表[{table.Name}] - [{idKeyCol.Name}] :值：{value} 没变化，跳过更新！".LogFormat());
-
+                        ignoreCount++;
                         continue;
                     }
 
-
-
-                    var uDt = dt.Clone(); //new DbTable();
-                    uDt.Rows = new List<object[]>();
-                    uDt.Rows.Add(row);
-
-                    var list = uDt.Cast<IModel>();
-
-                    toDal.Session.Upsert(dbTable, dbTable.Columns.ToArray(), udCols, null, list);
-
-                    toDt = toDal.Query(sb);
-
-                    str = toDt.Rows[0].ToJson();
-
-                    WriteStatuLog($"表[{table.Name}] - [{idKeyCol.Name}] :值：{value} 已更新！".LogFormat());
+                    toDal.Update(row, dbTable, dbTable.Columns.ToArray(), udCols, null);
+                    updateCount++;
+                    //WriteStatuLog($"表[{table.Name}] - [{idKeyCol.Name}] :值：{value} 已更新！".LogFormat());
                 }
                 else
                 {
-                    var uDt = dt.Clone();
-                    uDt.Rows = new List<object[]>();
-                    uDt.Rows.Add(row);
-
-                    toDal.Insert(uDt, dbTable,insCols);
-                    WriteStatuLog($"表[{table.Name}] - [{idKeyCol.Name}] :值：{value} 不存在！".LogFormat());
+                    toDal.Insert(row, dbTable, insCols);
+                    newCount++;
                 }
 
             }
 
+            WriteStatuLog($"表[{table.Name}] 已同步完成！新增[{newCount}]   更新[{updateCount}]   忽略[{ignoreCount}]".LogFormat());
 
-
-
-            ////把自增键去掉，不然会影响效率，作为备份库，自增键也不是很重要
-            //var col = table.Columns.FirstOrDefault(e => e.Identity);
-            //if (col != null)
-            //{
-            //    col.Identity = false;
-            //}
-
-            //var dal = DAL.Create("BakDB");
-
-            //var toDal = DAL.Create("ToBakDB");
-            //var toTables = toDal.Tables;
-
-
-
-            table.SyncTime=endTime.ToString("yyyy-MM-dd HH:mm:ss");
+            table.SyncTime = endTime.ToString("yyyy-MM-dd HH:mm:ss");
             SyncSetting.Current.Save();
 
             _remainTables.Remove(table);
@@ -348,6 +313,59 @@ namespace NewLife.SyncDB
             }
             setTable.SyncTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             SyncSetting.Current.Save();
+        }
+
+        private bool CompareTwoObjList(object[] one, object[] two)
+        {
+            if (one == null || two == null)
+            {
+                return false;
+            }
+
+            if (one.Length != two.Length)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < one.Length; i++)
+            {
+                var v1 = one[i]?.ToString();
+                var v2 = two[i]?.ToString();
+
+                if (!v1.IsNullOrEmpty() && (v1 == "1970/1/1 0:00:00" || v1 == "0001/1/1 0:00:00"))//错误的时间
+                {
+                    v1 = "";
+                }
+
+                if (!v2.IsNullOrEmpty() && (v2 == "1970/1/1 0:00:00" || v2 == "0001/1/1 0:00:00"))//错误的时间
+                {
+                    v2 = "";
+                }
+
+                if (v1 == v2)
+                {
+                    continue;
+                }
+
+                if (v1.IsNullOrEmpty() && v2.IsNullOrEmpty())//字符串为空的情况
+                {
+                    continue;
+                }
+
+                return false;
+
+                //if (one[i] != null && two != null)
+                //{
+
+                //}
+                //else
+                //{
+                //    if (one[i]==null)
+                //}
+            }
+
+            return true;
+
         }
 
         private void RestQueue()
