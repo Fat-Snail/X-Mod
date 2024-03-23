@@ -1,4 +1,4 @@
-﻿using Newlife.SyncDB.Ext;
+﻿using NewLife.SyncDB.Ext;
 using NewLife;
 using NewLife.Caching;
 using NewLife.Data;
@@ -16,9 +16,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NewLife.SyncDB;
 using XCode.DataAccessLayer;
 
-namespace Newlife.SyncDB
+namespace NewLife.SyncDB
 {
     public partial class FrmSync : UIForm
     {
