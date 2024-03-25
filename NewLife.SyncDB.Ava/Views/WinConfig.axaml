@@ -1,0 +1,46 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="230"
+        x:Class="NewLife.SyncDB.Ava.Views.WinConfig"
+        Title="参数配置"
+        Width="450"
+        Height="230">
+    <Window.Styles>
+        <Style Selector="TextBlock.tagName">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+        </Style>
+        <Style Selector="TextBox.inputBox">
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="Width" Value="300"/>
+        </Style>
+    </Window.Styles>
+    <Grid ColumnDefinitions="120,*" 
+          RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+          
+          Margin="20,20"
+    >
+        <TextBlock Grid.Row="0" Grid.Column="0" Classes="tagName" >服务名称：</TextBlock>
+        <TextBox Grid.Row="0" Grid.Column="1" Classes="inputBox" x:Name="txtServiceName"></TextBox>
+        
+        <TextBlock Grid.Row="1" Grid.Column="0" Classes="tagName">旧数据库连接：</TextBlock>
+        <TextBox Grid.Row="1" Grid.Column="1" Classes="inputBox" x:Name="txtMainConn"></TextBox>
+        
+        <TextBlock Grid.Row="2" Grid.Column="0" Classes="tagName">新数据库连接：</TextBlock>
+        <TextBox Grid.Row="2" Grid.Column="1" Classes="inputBox" x:Name="txtBakConn"></TextBox>
+        
+        <TextBlock Grid.Row="3" Grid.Column="0" Classes="tagName">线程数：</TextBlock>
+        <TextBox Grid.Row="3" Grid.Column="1" Classes="inputBox" x:Name="txtThreadCount"></TextBox>
+        
+        
+        <DockPanel Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Margin="0,10">
+            <Button x:Name="btnCancel">取消</Button>
+            <Button x:Name="btnSave">确定</Button>
+        </DockPanel>
+        
+    </Grid>
+</Window>

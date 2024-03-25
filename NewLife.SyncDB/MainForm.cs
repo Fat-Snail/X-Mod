@@ -106,8 +106,7 @@ namespace NewLife.SyncDB
             var toDal = DAL.Create("ToBakDB");
             // 获取数据表
             var tables = dal.Tables?.Where(x => !_excludeTables.Contains(x.Name)).ToList();
-
-            //var ts = tables.FindAll(x => x.Name == "tdAdmin").ToArray();
+            
 
             //var t = toDal.GetCreateTableSql(ts);
 

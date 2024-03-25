@@ -1,0 +1,70 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="NewLife.SyncDB.Ava.Views.MainWindow"
+        Title="MainWindow">
+        
+        
+        <Grid ColumnDefinitions="*"
+              RowDefinitions="30,100,*,20">
+                
+                <DockPanel Grid.Row="0">
+                        <Menu DockPanel.Dock="Top">
+                                <MenuItem Header="_菜单">
+                                        <MenuItem Header="_Open..."/>
+                                        <Separator/>
+                                        <MenuItem Header="_Exit"/>
+                                </MenuItem>
+                                <MenuItem Header="_编辑">
+                                        <MenuItem Header="Copy"/>
+                                        <MenuItem Header="Paste"/>
+                                </MenuItem>
+                        </Menu>
+                        <TextBlock/>
+                </DockPanel>    
+                
+                <Grid Grid.Row="1"
+      
+                      RowDefinitions="*"
+                      ColumnDefinitions="*"
+                      >
+                        <DockPanel>
+                                <Button Height="90" x:Name="btnSetting">
+                                        <StackPanel>
+                                                <Image Height="62" Source="/Assets/toolSetting.Image.png"></Image>
+                                                <TextBlock TextAlignment="Center">设置</TextBlock>
+                                        </StackPanel>
+                                </Button>
+                                <Button Height="90" x:Name="btnReadStruct">
+                                        <StackPanel>
+                                                <Image Width="64" Source="/Assets/toolReadStruct.Image.png"></Image>
+                                                <TextBlock TextAlignment="Center">读取</TextBlock>
+                                        </StackPanel>
+                                </Button>
+                                <Button Height="90">
+                                        <StackPanel>
+                                                <Image Width="64" Source="/Assets/toolReplication.Image.png"></Image>
+                                                <TextBlock TextAlignment="Center">复制</TextBlock>
+                                        </StackPanel>
+                                </Button>
+                                <Button  Height="90">
+                                        <StackPanel>
+                                                <Image Width="64" Source="/Assets/toolSyncData.Image.png"></Image>
+                                                <TextBlock TextAlignment="Center">同步</TextBlock>
+                                        </StackPanel>
+                                </Button>
+                        </DockPanel>
+                        
+                </Grid>
+                
+                <Grid Grid.Row="2">
+                        <Border BorderThickness="1"
+                                BorderBrush="{DynamicResource    SystemChromeHighColor }">
+                                <DataGrid x:Name="dataGrid"></DataGrid>
+                        </Border>
+                        
+                </Grid>
+        </Grid>
+</Window>

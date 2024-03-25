@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.7" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.7" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.7" />
+    <PackageReference Include="NewLife.XCode" Version="11.11.2024.303" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\toolReplication.Image.png" />
+    <AvaloniaResource Include="Assets\toolReplication.Image.png" />
+    <None Remove="Assets\right.png" />
+    <AvaloniaResource Include="Assets\right.png" />
+    <None Remove="Assets\right-16.png" />
+    <AvaloniaResource Include="Assets\right-16.png" />
+    <None Remove="Assets\toolReadStruct.Image.png" />
+    <AvaloniaResource Include="Assets\toolReadStruct.Image.png" />
+    <None Remove="Assets\toolSetting.Image.png" />
+    <AvaloniaResource Include="Assets\toolSetting.Image.png" />
+    <None Remove="Assets\toolSyncData.Image.png" />
+    <AvaloniaResource Include="Assets\toolSyncData.Image.png" />
+    <None Remove="Assets\warn.png" />
+    <AvaloniaResource Include="Assets\warn.png" />
+    <None Remove="Assets\warn-16.png" />
+    <AvaloniaResource Include="Assets\warn-16.png" />
+  </ItemGroup>
+
+</Project>
